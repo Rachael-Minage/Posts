@@ -25,18 +25,24 @@ class MainActivity : AppCompatActivity() {
             override fun onResponse(call: Call<List<Posts>>, response: Response<List<Posts>>) {
                 if(response.isSuccessful){
                     val posts = response.body()
-                    Toast.makeText(baseContext,"fetched ${posts!!.size}posts",
-                    Toast.LENGTH_LONG).show()
-                    binding.rvPost.layoutManager=LinearLayoutManager(baseContext)
-                    binding.rvPost.adapter=PostAdapter(baseContext,posts)
+                    if (posts != null){
+                        displayPosts(posts)
+                    }
+
                 }
             }
 
             override fun onFailure(call: Call<List<Posts>>, t: Throwable) {
 
             }
-        }
-
-        )
+        })
+    }
+    fun displayPosts(postsList: List<Posts>) {
+        binding.rvPost.layoutManager = LinearLayoutManager(this)
+        val postsAdapter = PostAdapter(postsList)
+        binding.rvPost.adapter = postsAdapter //called it
     }
 }
+
+
+

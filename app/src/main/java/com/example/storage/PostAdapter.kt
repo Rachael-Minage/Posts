@@ -1,16 +1,17 @@
 package com.example.storage
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.storage.databinding.PostItemsListBinding
 
 
-class PostAdapter ( var context:Context, var postList:List<Posts>):RecyclerView.Adapter<PostViewHolder>(){
+class PostAdapter ( var postList:List<Posts>):RecyclerView.Adapter<PostViewHolder>(){
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
         var binding =PostItemsListBinding
-            .inflate(LayoutInflater.from(context),parent,false)
+            .inflate(LayoutInflater.from(parent.context),parent,false)
         return PostViewHolder(binding)
     }
 
@@ -21,6 +22,13 @@ class PostAdapter ( var context:Context, var postList:List<Posts>):RecyclerView.
             tvinfo.text=currentPost.id.toString()
             tvTitleInfo.text=currentPost.title
             tvBodyInfo.text=currentPost.body
+            val context =holder. itemView.context
+            cvPosts.setOnClickListener {
+            val intent = Intent(context,CommentActivity::class.java)
+                intent.putExtra("POST_ID",currentPost.id)
+                context.startActivity(intent)
+
+            }
         }
 
     }
